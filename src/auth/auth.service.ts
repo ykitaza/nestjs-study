@@ -9,6 +9,7 @@ import { Msg, Jwt } from './interfaces/auth.interface';
 
 @Injectable()
 export class AuthService {
+    // typescriptの省略記法: https://qiita.com/fumiya1753/items/260ea71c5a3d316d1473
     constructor(
         private readonly prisma: PrismaService,
         private readonly jwt: JwtService,
@@ -38,7 +39,22 @@ export class AuthService {
                 }
                 throw error;
             }
+        }
+    }
 
+    async generateJwt(userId: number, email: string): Promise<Jwt> {
+        const payload = {
+            sub: userId,
+            email
+        }
+        const secret = this.config.get("JWT_SECRET")
+        // jwtを発行する
+        const token = await this.jwt.signAsync(payload, {
+            expiresIn: '5m',
+            secret: secret
+        })
+        return {
+            accessToken: token
         }
     }
 }
