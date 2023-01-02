@@ -15,7 +15,7 @@ export class AuthService {
         private readonly config: ConfigService,
     ) { }
 
-    async signUp(dto: AuthDto) {
+    async signUp(dto: AuthDto): Promise<Msg> {
         // passwordをhash化
         const hashed = await bcrypt.hash(dto.password, 12)
         try {
