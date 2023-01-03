@@ -22,7 +22,7 @@ export class TodoService {
 
     // taskidに一致するタスクを取得する
     //prisma reference:  https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#get-the-user-record-with-firstname-of-alice-and-lastname-of-smith-unique
-    getTask(userId: number, taskId: number): Promise<Task> {
+    getTaskById(userId: number, taskId: number): Promise<Task> {
         return this.prisma.task.findFirst({
             where: {
                 userId,
@@ -53,7 +53,6 @@ export class TodoService {
             },
         })
         if (!task || task.userId !== userId) throw new ForbiddenException('No permision to update');
-
         return this.prisma.task.update({
             where: {
                 id: taskId
