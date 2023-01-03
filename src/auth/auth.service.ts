@@ -65,6 +65,7 @@ export class AuthService {
             expiresIn: '5m',
             secret: secret
         })
+        console.log('generateJwt')
         return {
             accessToken: token
         }

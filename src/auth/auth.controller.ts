@@ -36,6 +36,7 @@ export class AuthController {
         @Res({ passthrough: true }) res: Response
     ): Promise<Msg> {
         const jwt = await this.authService.login(dto);
+        console.log('jwt: ', jwt)
         res.cookie('access_token', jwt.accessToken, {
             httpOnly: true,
             secure: false,
