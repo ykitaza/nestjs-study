@@ -5,44 +5,26 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-    // constructor(
-    //     private readonly config: ConfigService,
-    //     private readonly prisma: PrismaService
-    // ) {
-    //     // passportStrategy: https://docs.nestjs.com/security/authentication
-    //     super({
-    //         // jwtをrequestのどこから取得するか: https://github.com/mikenicholson/passport-jwt#configure-strategy
-    //         jwtFromRequest: ExtractJwt.fromExtractors([
-    //             (req) => {
-    //                 let jwt = null;
-    //                 if (req && req.cookies) {
-    //                     jwt = req.cookies['access_token']
-    //                 }
-    //                 return jwt
-    //             }
-    //         ]),
-    //         ignoreExpiration: false,
-    //         secretOrKey: config.get('JWT_SECRET')
-    //     })
-    // }
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt1') {
     constructor(
         private readonly config: ConfigService,
-        private readonly prisma: PrismaService,
+        private readonly prisma: PrismaService
     ) {
+        // passportStrategy: https://docs.nestjs.com/security/authentication
         super({
+            // jwtをrequestのどこから取得するか: https://github.com/mikenicholson/passport-jwt#configure-strategy
             jwtFromRequest: ExtractJwt.fromExtractors([
                 (req) => {
                     let jwt = null;
                     if (req && req.cookies) {
-                        jwt = req.cookies['access_token'];
+                        jwt = req.cookies['access_token']
                     }
-                    return jwt;
-                },
+                    return jwt
+                }
             ]),
             ignoreExpiration: false,
-            secretOrKey: config.get('JWT_SECRET'),
-        });
+            secretOrKey: config.get('JWT_SECRET')
+        })
     }
     async validate(payload: { sub: number; email: string }) {
         console.log('run validate')
